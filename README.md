@@ -1,39 +1,24 @@
-# Custom Express Server example
+# Custom Express Server ISR Example
 
-Most of the times the default Next server will be enough but sometimes you want to run your own server to customize routes or other kind of the app behavior. Next provides a [Custom server and routing](https://github.com/vercel/next.js#custom-server-and-routing) so you can customize as much as you want.
+As simple example of running redirection (failing) with a custom server towards and ISR location.
 
-Because the Next.js server is just a node.js module you can combine it with any other part of the node.js ecosystem. in this case we are using express to build a custom router on top of Next.
+# How to reproduce
 
-The example shows a server that serves the component living in `pages/a.js` when the route `/b` is requested and `pages/b.js` when the route `/a` is accessed. This is obviously a non-standard routing strategy. You can see how this custom routing is being made inside `server.js`.
+Start the server with yarn dev
 
-## How to use
+Navigate to localhost:3000/es/b
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+A page should be shown with the text B. Country - es
 
-```bash
-npx create-next-app --example custom-server-express custom-server-express-app
-# or
-yarn create next-app --example custom-server-express custom-server-express-app
-```
+This is using default ISR with next.js
 
-### Populate body property
+Navigate to localhost:3000/es/a
 
-Without the use of the body-parser package `req.body` will return undefined. To get express to populate `req.body` you need to install the body parser package and call the package within server.js.
+A page should be shown with the text A. Country - es
 
-Install the package:
+This is also using default ISR with next.js
 
-```bash
-npm install body-parser
-```
+Navigate to localhost:3000/a
 
-Use the package within server.js:
+This will show a page with the text A.Country - and it will display an error: Error: The provided `as` value (/a) is incompatible with the `href` value (/[country]/a). Read more: https://err.sh/vercel/next.js/incompatible-href-as
 
-```bash
-const bodyParser = require('body-parser');
-
-app.prepare().then(() => {
-  const server = express();
-  server.use(bodyParser.urlencoded({ extended: true }))
-  server.use(bodyParser.json())
-})
-```
