@@ -1,11 +1,12 @@
-export default function B(props) {
-  return <div>B. Country - {props.country}</div>
+export default function A(props) {
+  return <div>A. Country - {props.country}</div>
 }
 
 export async function getStaticProps(context) {
+  console.log(JSON.stringify(context))
   return {
     props: {
-      country: context.params.country
+      country: context.params.slug
     },
     revalidate: 1
   }
